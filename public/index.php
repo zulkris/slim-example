@@ -2,9 +2,12 @@
 
 namespace App;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
-$users = Generator::generate(57);
+use function Stringy\create as s;
+use Illuminate\Support\Collection ;
+
+$users = Generator::generate(100);
 
 $configuration = [
     'settings' => [
@@ -17,30 +20,20 @@ $app = new \Slim\App($configuration);
 $container = $app->getContainer();
 $container['renderer'] = new \Slim\Views\PhpRenderer(__DIR__ . '/../templates');
 
-
 $app->get('/', function ($request, $response) {
     return $this->renderer->render($response, 'index.phtml');
 });
 
+// BEGIN (write your solution here)
+$app->get('/users', function ($req, $resp, $args) use ($users) {
+    $term = $req->getQueryParam('term'. '');
 
-$app->get('/users', function ($request, $response) use ($users) {
+    $uzveri = collect($users)->filter(function ($value, $key) use ($term) {
+        return s($value['firstName'])->startsWith($term, false);
+    })->all();
 
-    $pageId = $request->getQueryParam('page', 1);
-    $usersPerPage = $request->getQueryParam('per', 5);
-    $pagesCount = ceil(count($users)/$usersPerPage);
-
-    $userArr = array_slice($users, ($pageId - 1) * $usersPerPage, $usersPerPage);
-
-    $params = ['pageId' => $pageId, 'userArr' => $userArr, 'pagesCount' => $pagesCount, 'users' => $users];
-
-    return $this->renderer->render($response, 'users/index.phtml', $params);
+    return $this->renderer->render($resp, 'users/index.phtml', ['term' => $term, 'users' => $uzveri]);
 });
-
-
-$app->get('/users/{id}', function ($request, $response, $args) use ($users) {
-    $id = $args['id'];
-    $params = ['user' => $users[$id]];
-    return $this->renderer->render($response, 'users/show.phtml', $params);
-});
+// END
 
 $app->run();
