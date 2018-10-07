@@ -1,0 +1,35 @@
+<!-- BEGIN (write your solution here) -->
+
+<table>
+
+<?php foreach ($userArr as $user): ?>
+
+    <tr>
+    <td><?= $user['id']; ?></td>
+    <td><a href="/users/<?= $user['id'] ?>"> <?= $user['firstName']; ?> </a> </td>
+    <td><?= $user['lastName']; ?></td>
+    <td><?= $user['email']; ?></td>
+    </tr>
+
+<?php endforeach; ?>
+
+</table>
+
+<?php //print_r($users); ?>
+
+<p> Страницы: </p>
+
+<?php for ($i = 1; $i<= $pagesCount; $i++) { ?>
+    <span>
+    <?php if ($i != $pageId): ?>
+        <a href="/users?page=<?= $i; ?>"><?= $i; ?></a>
+    <?php else: ?>
+        <?= $i; ?>
+    <?php endif; ?>
+    </span>
+
+<?php } ?>
+
+
+
+<!-- END -->

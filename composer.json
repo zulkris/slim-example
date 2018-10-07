@@ -1,0 +1,24 @@
+{
+    "name": "zulkris/slim-example",
+    "description": "example slim project",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.11",
+        "slim/php-view": "^2.2",
+        "fzaninotto/faker": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {"App\\": "src/"},
+        "files": [
+        ]
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "zulkris",
+            "email": "2garin.zmej@gmail.com"
+        }
+    ]
+}
