@@ -5,9 +5,8 @@ namespace App;
 require __DIR__.'/../vendor/autoload.php';
 
 use function Stringy\create as s;
-use Illuminate\Support\Collection ;
 
-$users = Generator::generate(100);
+$repo = new Repository();
 
 $configuration = [
     'settings' => [
@@ -24,15 +23,43 @@ $app->get('/', function ($request, $response) {
     return $this->renderer->render($response, 'index.phtml');
 });
 
+$app->get('/courses', function ($request, $response) use ($repo) {
+    $params = [
+        'courses' => $repo->all()
+    ];
+    //var_dump($repo); die;
+    return $this->renderer->render($response, 'courses/index.phtml', $params);
+});
+
 // BEGIN (write your solution here)
-$app->get('/users', function ($req, $resp, $args) use ($users) {
-    $term = $req->getQueryParam('term'. '');
+$app->get('/courses/new', function ($req, $resp) {
+    return $this->renderer->render($resp, 'courses/new.phtml');
+});
 
-    $uzveri = collect($users)->filter(function ($value, $key) use ($term) {
-        return s($value['firstName'])->startsWith($term, false);
-    })->all();
+$app->post('/courses', function ($req, $resp) use ($repo) {
+    $course = $req->getParsedBodyParam('course');
 
-    return $this->renderer->render($resp, 'users/index.phtml', ['term' => $term, 'users' => $uzveri]);
+
+    $validator = new Validator;
+    $errors = $validator->validate($course);
+
+
+    $params =  [
+        'course' => $course,
+        'errors' => $errors
+    ];
+
+    //var_dump($params); return;
+
+    if (!empty($errors)) {
+        return $this->renderer->render($resp, 'courses/new.phtml', $params);
+    }
+
+    $repo->save($course);
+
+    //dump('$course сохранили!'); return;
+
+    return $resp->withRedirect('/courses');
 });
 // END
 
