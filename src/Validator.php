@@ -2,20 +2,19 @@
 
 namespace App;
 
-class Validator implements ValidatorInterface
+class Validator
 {
-    public function validate(array $course)
+    public function validate(array $post)
     {
-        // BEGIN (write your solution here)
         $errors = [];
-        if ((int)$course['paid'] > 1 || (int)$course['paid'] < 0) {
-            $errors['paid'] = 'Can\'t be blank';
+        if ($post['name'] == '') {
+            $errors['name'] = "Can't be blank";
         }
-        if (empty($course['title'])) {
-            $errors['title'] = 'Can\'t be blank';
+
+        if (empty($post['body'])) {
+            $errors['body'] = "Can't be blank";
         }
 
         return $errors;
-        // END
     }
 }

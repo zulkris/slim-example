@@ -1,0 +1,8 @@
+<form action="/posts/<?= htmlspecialchars($post['id']) ?>" method="post">
+
+    <?php require('_form.phtml'); ?>
+    
+  <input type="hidden" name="post[id]" value="<?= htmlspecialchars($post['id']) ?>">
+  <input type="hidden" name="_METHOD" value="PUT"/>
+  <input type="submit" value="Save">
+</form>

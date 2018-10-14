@@ -1,0 +1,12 @@
+<div>
+    <input type="text" name="post[name]" value="<?= htmlspecialchars($post['name']) ?>">
+    <?php if (!empty($errors['name'])) : ?>
+        <label><?= $errors['name'] ?></label>
+    <?php endif; ?>
+</div>
+<div>
+    <textarea name="post[body]" cols="40" rows="3" ><?= htmlspecialchars($post['body']) ?></textarea>
+    <?php if (!empty($errors['body'])): ?>
+        <label><?= $errors['body'] ?></label>
+    <?php endif; ?>
+</div>

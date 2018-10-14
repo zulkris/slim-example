@@ -1,0 +1,23 @@
+<?php if ($flash) : ?>
+    <div style="background-color: red; color: white; font-size: 20px;">
+        <?php dump($flash); ?>
+    </div>
+<?php endif; ?>
+
+<a href="/posts/new">create new post</a>
+
+<table>
+    <?php foreach ($posts as $post) : ?>
+        <tr>
+            <td>
+                <a href="/posts/<?= $post['id'] ?>"><?= $post['name'] ?></a>
+            </td>
+            <td>
+                <form action="/posts/<?= $post['id'] ?>" method="post">
+                  <input type="hidden" name="_METHOD" value="DELETE">
+                  <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
